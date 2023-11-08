@@ -14,3 +14,13 @@ from tqdm import tqdm
 import tensorflow as tf
 from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense, add,\
                                     BatchNormalization, Activation, LeakyReLU, Layer
+def res_block(ip):
+
+    res_model = Conv2D(64, (3,3), padding = "same")(ip)
+    res_model = BatchNormalization(momentum = 0.5)(res_model)
+    res_model = PReLU(shared_axes = [1,2])(res_model)
+
+    res_model = Conv2D(64, (3,3), padding = "same")(res_model)
+    res_model = BatchNormalization(momentum = 0.5)(res_model)
+
+    return add([ip,res_model])
